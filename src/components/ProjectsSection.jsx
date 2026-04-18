@@ -8,21 +8,42 @@ const projects = [
     tech: ["React.js", "Tailwind", "Spring Boot", "MySQL"],
     description:
       "A full-stack debt management platform featuring user profile systems, email notifications, and seamless API integration for financial tracking.",
-    link: "#",
+    link: "https://www.clearurdebt.com/",
   },
   {
     title: "Shamudri Tourism",
     tech: ["REST APIs", "Spring Boot", "React.js", "MySQL"],
     description:
       "A dynamic tourism website with an admin panel, combining REST APIs with full frontend–backend integration for a smooth booking experience.",
-    link: "#",
+    link: "https://www.shamudritourism.ae/",
   },
   {
     title: "Triangle Application",
     tech: ["NFC Integration", "Spring Boot", "React.js"],
     description:
       "An artist platform with NFC integration and tiered subscription plans — Free, Premium, and Platinum.",
-    link: "#",
+    link: null,
+  },
+  {
+    title: "Ocean Holiday Homes",
+    tech: ["React.js", "Tailwind", "Spring Boot", "MySQL"],
+    description:
+      "A tourist website for holiday home rentals, offering a seamless browsing and booking experience with a modern UI.",
+    link: "https://theoceanholidayhomes.ae/",
+  },
+  {
+    title: "Sanjeevani Hospital Website",
+    tech: ["React.js", "Tailwind", "Spring Boot", "MySQL"],
+    description:
+      "A professional hospital website for Sanjeevani Clinic featuring doctor listings, services, and patient appointment information.",
+    link: "https://sanjeevani-clinic-six.vercel.app/",
+  },
+  {
+    title: "Book Inventory",
+    tech: ["React.js", "Tailwind", "Spring Boot", "MySQL"],
+    description:
+      "Manage your collection with style and elegance. A full-stack book inventory app to track, organize, and manage your personal book collection seamlessly.",
+    link: "https://sanjanapawar-nexgensis-bookmanagement.netlify.app/",
   },
 ];
 
@@ -31,8 +52,8 @@ export default function ProjectsSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="projects" className="py-24 px-6" ref={ref}>
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="py-24 px-4" ref={ref}>
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -48,10 +69,7 @@ export default function ProjectsSection() {
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
-            <motion.a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -76,12 +94,20 @@ export default function ProjectsSection() {
                     {project.title}
                   </h3>
 
-                  <motion.div whileHover={{ rotate: -45 }}>
-                    <ExternalLink
-                      size={18}
-                      className="text-muted-foreground group-hover:text-primary"
-                    />
-                  </motion.div>
+                  {project.link && (
+                    <motion.a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ rotate: -45 }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink
+                        size={18}
+                        className="text-muted-foreground group-hover:text-primary"
+                      />
+                    </motion.a>
+                  )}
                 </div>
 
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -99,7 +125,7 @@ export default function ProjectsSection() {
                   ))}
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>

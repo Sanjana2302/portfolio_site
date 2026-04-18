@@ -14,7 +14,7 @@ export default function ExperienceSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" className="bg-card py-24 px-6" ref={ref}>
+    <section id="experience" className="bg-card py-24 px-4" ref={ref}>
       <div className="mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

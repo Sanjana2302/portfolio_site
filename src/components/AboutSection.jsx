@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { User } from "lucide-react";
 
 const stats = [
-  { label: "Projects", value: "3+" },
+  { label: "Projects", value: "13+" },
   { label: "Technologies", value: "15+" },
   { label: "Experience", value: "1+ yr" },
 ];
@@ -13,7 +13,7 @@ export default function AboutSection() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24 px-6" ref={ref}>
+    <section id="about" className="py-24 px-4" ref={ref}>
       <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

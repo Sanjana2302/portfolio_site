@@ -14,8 +14,8 @@ export default function EducationSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="education" className="py-24 px-6" ref={ref}>
-      <div className="mx-auto max-w-4xl">
+    <section id="education" className="py-24 px-4" ref={ref}>
+      <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

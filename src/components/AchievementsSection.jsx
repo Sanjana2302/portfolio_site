@@ -1,9 +1,10 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Award, Users, MessageCircle } from "lucide-react";
+import { Award, Users, MessageCircle, Code } from "lucide-react";
 
 const items = [
   { icon: Award, label: "Soft Skill Development Award" },
+  { icon: Code, label: "Java Full Stack Developer" },
   { icon: MessageCircle, label: "Strong Communication" },
   { icon: Users, label: "Team Collaboration" },
 ];
@@ -13,8 +14,8 @@ export default function AchievementsSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="bg-card py-24 px-6" ref={ref}>
-      <div className="mx-auto max-w-4xl">
+    <section className="bg-card py-24 px-4" ref={ref}>
+      <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

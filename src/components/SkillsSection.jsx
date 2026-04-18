@@ -35,7 +35,7 @@ export default function SkillsSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="skills" className="bg-card py-24 px-6" ref={ref}>
+    <section id="skills" className="bg-card py-24 px-4" ref={ref}>
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

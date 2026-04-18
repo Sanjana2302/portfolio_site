@@ -19,7 +19,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
       {/* Animated background blobs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="animate-blob absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
@@ -66,7 +66,7 @@ export default function HeroSection() {
           className="font-heading text-5xl font-bold leading-tight text-foreground sm:text-6xl lg:text-7xl"
         >
           Hi, I'm <span className="text-primary">Sanjana</span>{" "}
-          <span className="text-secondary">Pawar</span>
+          <span className="text-primary">Pawar</span>
         </motion.h1>
 
         {/* Rotating role */}
@@ -117,7 +117,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2"
@@ -129,7 +129,7 @@ export default function HeroSection() {
         >
           <div className="h-2 w-1 rounded-full bg-primary/60" />
         </motion.div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
