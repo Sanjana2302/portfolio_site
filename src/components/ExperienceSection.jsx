@@ -14,7 +14,7 @@ export default function ExperienceSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="experience" className="bg-card py-24 px-4" ref={ref}>
+    <section id="experience" className="bg-card py-12 px-4" ref={ref}>
       <div className="mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -46,7 +46,7 @@ export default function ExperienceSection() {
               </h3>
 
               <span className="text-sm font-medium text-secondary">
-                Feb 2025 – Present
+                Feb 2025 – 31/3/2026
               </span>
             </div>
 

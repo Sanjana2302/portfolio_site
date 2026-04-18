@@ -10,7 +10,7 @@ export default function Footer() {
       className="border-t border-border bg-card py-8 px-6 text-center"
     >
       <p className="text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Sanjana Pawar. Built with ❤️ and passion.
+        Thank you for visiting my portfolio !!! Your time means a lot to me.
       </p>
     </motion.footer>
   );

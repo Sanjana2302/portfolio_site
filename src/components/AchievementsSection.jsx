@@ -14,7 +14,7 @@ export default function AchievementsSection() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="bg-card py-24 px-4" ref={ref}>
+    <section className="bg-card py-12 px-4" ref={ref}>
       <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
