@@ -23,19 +23,21 @@ export default function Navbar({ dark, setDark }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close on outside click (FIXED 🔥)
+  // Close on outside click & touch
   useEffect(() => {
-    const handleClick = (e) => {
+    const handleClose = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
-
     if (open) {
-      document.addEventListener("mousedown", handleClick);
+      document.addEventListener("mousedown", handleClose);
+      document.addEventListener("touchstart", handleClose);
     }
-
-    return () => document.removeEventListener("mousedown", handleClick);
+    return () => {
+      document.removeEventListener("mousedown", handleClose);
+      document.removeEventListener("touchstart", handleClose);
+    };
   }, [open]);
 
   return (
@@ -66,6 +68,11 @@ export default function Navbar({ dark, setDark }) {
             >
               <a
                 href={l.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector(l.href);
+                  if (target) target.scrollIntoView({ behavior: "smooth" });
+                }}
                 className="relative text-sm font-medium text-foreground/70 transition hover:text-primary after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
               >
                 {l.label}
@@ -107,14 +114,21 @@ export default function Navbar({ dark, setDark }) {
               {navLinks.map((l, i) => (
                 <motion.li
                   key={l.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.05 }}
                 >
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
-                    className="text-base font-medium text-foreground/80 hover:text-primary transition"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpen(false);
+                      setTimeout(() => {
+                        const target = document.querySelector(l.href);
+                        if (target) target.scrollIntoView({ behavior: "smooth" });
+                      }, 100);
+                    }}
+                    className="block w-full py-2 text-base font-medium text-foreground/80 hover:text-primary transition"
                   >
                     {l.label}
                   </a>
