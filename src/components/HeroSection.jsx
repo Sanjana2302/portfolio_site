@@ -8,8 +8,16 @@ const roles = [
   "Software Developer",
 ];
 
+const images = [
+  "/1stimg.jpg",
+  "/2img.jpg",
+  "/3img.jpg",
+  "/4thimg.jpg",
+];
+
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
+  const [frameIndex, setFrameIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,44 +26,66 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleImageMouseMove = (e) => {
+    const { left, width } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const ratio = x / width;
+    const index = Math.min(images.length - 1, Math.floor(ratio * images.length));
+    setFrameIndex(index);
+  };
+
+  const handleImageMouseLeave = () => setFrameIndex(0);
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
-      {/* Animated background blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="animate-blob absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
-        <div
-          className="animate-blob absolute top-1/2 -right-32 h-80 w-80 rounded-full bg-secondary/15 blur-3xl"
-          style={{ animationDelay: "2s" }}
-        />
-        <div
-          className="animate-blob absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-accent/20 blur-3xl"
-          style={{ animationDelay: "4s" }}
-        />
+    <section className="relative flex h-screen w-full overflow-hidden bg-background">
 
+      {/* LEFT 50% — Image with horizontal cursor switching */}
+      <motion.div
+        initial={{ opacity: 0, x: -60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        onMouseMove={handleImageMouseMove}
+        onMouseLeave={handleImageMouseLeave}
+        className="relative hidden w-1/2 cursor-none overflow-hidden lg:block"
+      >
+        {/* Blobs */}
+        <div className="animate-blob absolute -top-20 -left-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+        <div className="animate-blob absolute bottom-10 right-0 h-64 w-64 rounded-full bg-secondary/15 blur-3xl" style={{ animationDelay: "2s" }} />
+
+        {/* Images — all stacked, only active one visible */}
+        {images.map((src, i) => (
+          <motion.img
+            key={src}
+            src={src}
+            alt={`Frame ${i + 1}`}
+            animate={{ opacity: i === frameIndex ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        ))}
+
+        {/* Gradient blend on right edge */}
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-r from-transparent to-background" />
+      </motion.div>
+
+      {/* RIGHT 50% — Personal Info */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="flex w-full flex-col items-start justify-center px-10 lg:w-1/2 lg:px-16"
+      >
         {/* Floating particles */}
-        <motion.div
-          animate={{ y: [0, -30, 0], x: [0, 15, 0], opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 6, repeat: Infinity }}
-          className="absolute top-1/4 left-1/4 h-3 w-3 rounded-full bg-primary/30"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0], x: [0, -10, 0], opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-          className="absolute top-1/3 right-1/4 h-2 w-2 rounded-full bg-secondary/40"
-        />
-        <motion.div
-          animate={{ y: [0, -20, 0], opacity: [0.2, 0.6, 0.2] }}
-          transition={{ duration: 7, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-1/3 left-1/2 h-4 w-4 rounded-full bg-accent/30"
-        />
-      </div>
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <motion.div animate={{ y: [0, -30, 0], opacity: [0.3, 0.7, 0.3] }} transition={{ duration: 6, repeat: Infinity }} className="absolute top-1/4 right-1/4 h-3 w-3 rounded-full bg-primary/30" />
+          <motion.div animate={{ y: [0, 20, 0], opacity: [0.2, 0.5, 0.2] }} transition={{ duration: 5, repeat: Infinity, delay: 1 }} className="absolute top-1/3 right-1/3 h-2 w-2 rounded-full bg-secondary/40" />
+        </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-4 text-sm font-medium tracking-widest text-secondary uppercase"
+          transition={{ delay: 0.3 }}
+          className="mb-3 text-sm font-medium uppercase tracking-widest text-secondary"
         >
           Welcome to my portfolio
         </motion.p>
@@ -63,14 +93,15 @@ export default function HeroSection() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-heading text-5xl font-bold leading-tight text-foreground sm:text-6xl lg:text-7xl"
+          transition={{ delay: 0.4 }}
+          className="font-heading text-4xl font-bold leading-tight text-foreground sm:text-5xl xl:text-6xl"
         >
           Hi, I'm <span className="text-primary">Sanjana</span>{" "}
-          <span className="text-primary">Pawar</span>
+          <span className="text-secondary">Pawar</span>
         </motion.h1>
 
         {/* Rotating role */}
-        <div className="mx-auto mt-6 h-10 max-w-lg overflow-hidden">
+        <div className="mt-5 h-9 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.p
               key={roles[roleIndex]}
@@ -88,48 +119,34 @@ export default function HeroSection() {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="mx-auto mt-4 max-w-lg text-base text-muted-foreground"
+          transition={{ delay: 0.6 }}
+          className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
         >
           Building clean, scalable, and impactful web applications.
         </motion.p>
 
-        {/* CTA Buttons (UPDATED 🔥) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mt-10 flex flex-wrap justify-center gap-4"
+          transition={{ delay: 0.7 }}
+          className="mt-8 flex flex-wrap gap-4"
         >
           <a
             href="#projects"
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg hover:scale-105 transition"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:scale-105"
           >
             View My Work
             <ArrowDown size={16} />
           </a>
-
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-full border border-primary px-8 py-3 text-sm font-semibold text-primary hover:bg-primary/10 transition"
+            className="inline-flex items-center gap-2 rounded-full border border-primary px-8 py-3 text-sm font-semibold text-primary transition hover:bg-primary/10"
           >
             Contact Me
           </a>
         </motion.div>
-      </div>
+      </motion.div>
 
-      {/* Scroll indicator */}
-      {/* <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-primary/40 pt-2"
-        >
-          <div className="h-2 w-1 rounded-full bg-primary/60" />
-        </motion.div>
-      </motion.div> */}
     </section>
   );
 }

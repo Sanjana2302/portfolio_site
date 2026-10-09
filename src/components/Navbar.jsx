@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ dark, setDark }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
@@ -74,13 +74,23 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Mobile toggle */}
-        <button
-          className="text-foreground md:hidden"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Theme toggle + Mobile toggle */}
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileTap={{ scale: 0.85 }}
+            onClick={() => setDark(!dark)}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:bg-primary/10"
+          >
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
+          </motion.button>
+
+          <button
+            className="text-foreground md:hidden"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

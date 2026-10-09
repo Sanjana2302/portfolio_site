@@ -1,6 +1,5 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { User } from "lucide-react";
 
 const stats = [
   { label: "Projects", value: "13+" },
@@ -25,15 +24,18 @@ export default function AboutSection() {
           <div className="flex justify-center">
             <motion.div
               whileHover={{ scale: 1.05, rotate: 2 }}
-              className="relative flex h-64 w-64 items-center justify-center rounded-3xl bg-primary/10 shadow-lg"
+              className="relative h-80 w-72 overflow-hidden rounded-3xl shadow-lg"
             >
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 className="absolute -inset-3 rounded-3xl border-2 border-dashed border-primary/20"
               />
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/20 to-secondary/20" />
-              <User size={80} className="relative z-10 text-primary" />
+              <img
+                src="/3img.jpg"
+                alt="Sanjana Pawar"
+                className="h-full w-full object-cover object-center"
+              />
             </motion.div>
           </div>
 
