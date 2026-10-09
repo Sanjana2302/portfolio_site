@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const roles = [
   "Java Full Stack Developer",
@@ -18,6 +18,7 @@ const images = [
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [frameIndex, setFrameIndex] = useState(0);
+  const touchStartX = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,33 +27,48 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleImageMouseMove = (e) => {
+  // Desktop — mouse move
+  const handleMouseMove = (e) => {
     const { left, width } = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - left;
-    const ratio = x / width;
-    const index = Math.min(images.length - 1, Math.floor(ratio * images.length));
-    setFrameIndex(index);
+    const ratio = (e.clientX - left) / width;
+    setFrameIndex(Math.min(images.length - 1, Math.floor(ratio * images.length)));
   };
 
-  const handleImageMouseLeave = () => setFrameIndex(0);
+  const handleMouseLeave = () => setFrameIndex(0);
+
+  // Mobile — touch swipe
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    const { left, width } = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.touches[0].clientX - left) / width;
+    setFrameIndex(Math.min(images.length - 1, Math.max(0, Math.floor(ratio * images.length))));
+  };
+
+  const handleTouchEnd = () => setFrameIndex(0);
 
   return (
-    <section className="relative flex h-screen w-full overflow-hidden bg-background">
+    <section className="relative flex min-h-screen w-full flex-col overflow-hidden bg-background lg:flex-row">
 
-      {/* LEFT 50% — Image with horizontal cursor switching */}
+      {/* IMAGE PANEL — top on mobile, left on desktop */}
       <motion.div
-        initial={{ opacity: 0, x: -60 }}
+        initial={{ opacity: 0, x: 0 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        onMouseMove={handleImageMouseMove}
-        onMouseLeave={handleImageMouseLeave}
-        className="relative hidden w-1/2 cursor-none overflow-hidden lg:block"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative h-[50vh] w-full cursor-none overflow-hidden lg:h-screen lg:w-1/2"
       >
         {/* Blobs */}
         <div className="animate-blob absolute -top-20 -left-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
         <div className="animate-blob absolute bottom-10 right-0 h-64 w-64 rounded-full bg-secondary/15 blur-3xl" style={{ animationDelay: "2s" }} />
 
-        {/* Images — all stacked, only active one visible */}
+        {/* Images */}
         {images.map((src, i) => (
           <motion.img
             key={src}
@@ -64,16 +80,24 @@ export default function HeroSection() {
           />
         ))}
 
-        {/* Gradient blend on right edge */}
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-r from-transparent to-background" />
+        {/* Swipe hint on mobile */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 lg:hidden">
+          <p className="text-xs font-medium text-white/70 tracking-widest uppercase">
+            ← swipe to explore →
+          </p>
+        </div>
+
+        {/* Gradient blend — bottom on mobile, right on desktop */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent lg:hidden" />
+        <div className="absolute inset-y-0 right-0 hidden w-24 bg-gradient-to-r from-transparent to-background lg:block" />
       </motion.div>
 
-      {/* RIGHT 50% — Personal Info */}
+      {/* INFO PANEL — bottom on mobile, right on desktop */}
       <motion.div
-        initial={{ opacity: 0, x: 60 }}
+        initial={{ opacity: 0, x: 0 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
-        className="flex w-full flex-col items-start justify-center px-10 lg:w-1/2 lg:px-16"
+        className="flex w-full flex-col items-start justify-center px-8 py-10 lg:h-screen lg:w-1/2 lg:px-16 lg:py-0"
       >
         {/* Floating particles */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">

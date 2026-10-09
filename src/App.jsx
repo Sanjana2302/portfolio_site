@@ -29,7 +29,7 @@ export default function App() {
   }, [dark]);
 
   return (
-    <>
+    <div className="w-full overflow-x-hidden">
       <Navbar dark={dark} setDark={setDark} />
       <HeroSection />
       <SkillsSection />
@@ -39,6 +39,6 @@ export default function App() {
       <EducationSection />
       <AchievementsSection />
       <Footer />
-    </>
+    </div>
   );
 }
